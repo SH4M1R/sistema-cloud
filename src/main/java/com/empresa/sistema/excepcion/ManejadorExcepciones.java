@@ -1,5 +1,6 @@
 package com.empresa.sistema.excepcion;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -23,5 +24,11 @@ public class ManejadorExcepciones {
         ex.getBindingResult().getFieldErrors()
                 .forEach(e -> errores.put(e.getField(), e.getDefaultMessage()));
         return ResponseEntity.badRequest().body(errores);
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<Map<String, String>> manejarIntegridad(DataIntegrityViolationException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(Map.of("error", "Dato duplicado o relación inválida (DNI, correo o nombre ya existen)"));
     }
 }

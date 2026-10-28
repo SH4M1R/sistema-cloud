@@ -24,7 +24,6 @@ public class CategoriaServicio {
     public CategoriaDto crearCategoria(CategoriaDto dto) {
         Categoria categoria = Categoria.builder()
                 .nombre(dto.getNombre())
-                .descripcion(dto.getDescripcion())
                 .build();
         return aDto(categoriaRepositorio.save(categoria));
     }
@@ -33,7 +32,6 @@ public class CategoriaServicio {
         return CategoriaDto.builder()
                 .id(c.getId())
                 .nombre(c.getNombre())
-                .descripcion(c.getDescripcion())
                 .build();
     }
 }

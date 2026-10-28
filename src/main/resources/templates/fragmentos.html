@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="cabecera(titulo)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${titulo}">Sistema</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style type="text/tailwindcss">
+        @layer components {
+            .campo { @apply w-full rounded border border-slate-300 px-3 py-2 focus:border-blue-500 focus:outline-none; }
+            .etiqueta { @apply mb-1 block text-sm font-medium text-slate-700; }
+            .boton-primario { @apply rounded rounded-3xl bg-blue-700 px-4 py-2 text-white hover:bg-blue-700; }
+            .boton-secundario { @apply rounded rounded-3xl bg-slate-200 px-4 py-2 text-slate-700 hover:bg-slate-300; }
+            .boton-peligro { @apply rounded rounded-2xl bg-red-100 px-3 py-1 text-red-700 hover:bg-red-200; }
+            .boton-editar { @apply rounded rounded-2xl bg-blue-100 px-3 py-1 text-blue-700 hover:bg-blue-200; }
+        }
+    </style>
+</head>
+<body>
+<nav th:fragment="barra" class="bg-blue-800 text-white shadow">
+    <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
+        <a th:href="@{/inicio}" class="text-lg font-semibold">Inicio</a>
+        <div class="flex items-center gap-4 text-sm">
+            <a th:href="@{/productos}" class="hover:underline">Productos</a>
+            <a th:href="@{/empleados}" class="hover:underline">Empleados</a>
+            <form th:action="@{/logout}" method="post">
+                <button type="submit" class="rounded bg-white/20 px-3 py-1 hover:bg-white/30">Salir</button>
+            </form>
+        </div>
+    </div>
+</nav>
+</body>
+</html>

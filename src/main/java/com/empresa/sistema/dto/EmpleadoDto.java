@@ -16,7 +16,7 @@ public class EmpleadoDto {
     @NotBlank(message = "Los apellidos son obligatorios")
     @Size(max = 100)
     private String apellidos;
-
+    
     @Size(max = 15)
     private String telefono;
 

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos :: cabecera('Empleados')}"></head>
+<body class="min-h-screen bg-slate-100">
+<nav th:replace="~{fragmentos :: barra}"></nav>
+
+<main class="mx-auto max-w-6xl px-4 py-8">
+    <div class="mb-4 flex items-center justify-between">
+        <h1 class="text-2xl font-bold text-slate-800">Empleados</h1>
+        <button type="button" onclick="nuevoEmpleado()" class="boton-primario">+ Nuevo empleado</button>
+    </div>
+
+    <div class="overflow-x-auto rounded-xl bg-white shadow">
+        <table class="min-w-full text-left text-sm">
+            <thead class="bg-slate-50 text-slate-600">
+            <tr>
+                <th class="px-4 py-3">ID</th>
+                <th class="px-4 py-3">Nombre completo</th>
+                <th class="px-4 py-3">Teléfono</th>
+                <th class="px-4 py-3">Rol</th>
+                <th class="px-4 py-3 text-right">Acciones</th>
+            </tr>
+            </thead>
+            <tbody class="divide-y">
+            <tr th:each="e : ${empleados}">
+                <td class="px-4 py-3" th:text="${e.id}"></td>
+                <td class="px-4 py-3" th:text="${e.nombres + ' ' + e.apellidos}"></td>
+                <td class="px-4 py-3" th:text="${e.telefono}"></td>
+                <td class="px-4 py-3" th:text="${e.rolNombre}"></td>
+                <td class="space-x-2 px-4 py-3 text-right">
+                    <button type="button" onclick="editarEmpleado(this)" class="boton-editar"
+                            th:data-id="${e.id}" th:data-nombres="${e.nombres}"
+                            th:data-apellidos="${e.apellidos}" 
+                            th:data-telefono="${e.telefono}"
+                            th:data-rol-id="${e.rolId}">Editar</button>
+                    <button type="button" onclick="eliminarEmpleado(this.dataset.id)" class="boton-peligro"
+                            th:data-id="${e.id}">Eliminar</button>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(empleados)}">
+                <td colspan="7" class="px-4 py-6 text-center text-slate-500">No hay empleados registrados</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<!-- Modal crear / editar empleado -->
+<div id="modalEmpleado" class="fixed inset-0 z-40 hidden items-center justify-center bg-black/50 p-4">
+    <div class="w-full max-w-md rounded-xl bg-white p-6 shadow-xl">
+        <h2 id="tituloEmpleado" class="mb-4 text-lg font-semibold text-slate-800">Nuevo empleado</h2>
+        <form id="formEmpleado" class="space-y-3">
+            <input type="hidden" id="eId">
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="etiqueta" for="eNombres">Nombres</label>
+                    <input id="eNombres" type="text" required maxlength="100" class="campo">
+                </div>
+                <div>
+                    <label class="etiqueta" for="eApellidos">Apellidos</label>
+                    <input id="eApellidos" type="text" required maxlength="100" class="campo">
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="etiqueta" for="eTelefono">Teléfono</label>
+                    <input id="eTelefono" type="text" maxlength="15" class="campo">
+                </div>
+            </div>
+            <div>
+                <label class="etiqueta" for="eRol">Rol</label>
+                <div class="flex gap-2">
+                    <select id="eRol" required class="campo">
+                        <option value="">Seleccione...</option>
+                        <option th:each="r : ${roles}" th:value="${r.id}" th:text="${r.nombre}"></option>
+                    </select>
+                    <button type="button" onclick="abrirModal('modalRol')" title="Nuevo rol"
+                            class="boton-secundario">+</button>
+                </div>
+            </div>
+            <div id="erroresEmpleado" class="errores hidden rounded bg-red-100 px-3 py-2 text-sm text-red-700"></div>
+            <div class="flex justify-end gap-2 pt-2">
+                <button type="button" onclick="cerrarModal('modalEmpleado')" class="boton-secundario">Cancelar</button>
+                <button type="submit" class="boton-primario">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal nuevo rol -->
+<div id="modalRol" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 p-4">
+    <div class="w-full max-w-sm rounded-xl bg-white p-6 shadow-xl">
+        <h2 class="mb-4 text-lg font-semibold text-slate-800">Nuevo rol</h2>
+        <form id="formRol" class="space-y-3">
+            <div>
+                <label class="etiqueta" for="rNombre">Nombre</label>
+                <input id="rNombre" type="text" required maxlength="50" class="campo">
+            </div>
+            <div id="erroresRol" class="errores hidden rounded bg-red-100 px-3 py-2 text-sm text-red-700"></div>
+            <div class="flex justify-end gap-2 pt-2">
+                <button type="button" onclick="cerrarModal('modalRol')" class="boton-secundario">Cancelar</button>
+                <button type="submit" class="boton-primario">Crear</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script th:src="@{/js/app.js}"></script>
+<script th:src="@{/js/empleados.js}"></script>
+</body>
+</html>
