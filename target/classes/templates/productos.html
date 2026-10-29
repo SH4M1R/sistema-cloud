@@ -30,8 +30,9 @@
                 <td class="space-x-2 px-4 py-3 text-right">
                     <button type="button" onclick="editarProducto(this)" class="boton-editar"
                             th:data-id="${p.id}" th:data-nombre="${p.nombre}"
-                            th:data-descripcion="${p.descripcion}" th:data-precio="${p.precio}"
-                            th:data-stock="${p.stock}">Editar</button>
+                            th:data-precio="${p.precio}"
+                            th:data-stock="${p.stock}"
+                            th:data-categoria-id="${p.categoriaId}">Editar</button>
                     <button type="button" onclick="eliminarProducto(this.dataset.id)" class="boton-peligro"
                             th:data-id="${p.id}">Eliminar</button>
                 </td>
